@@ -27,7 +27,7 @@ logging.getLogger().setLevel(logging.WARNING)
 
 
 ## CONSTANTS ##
-DEFAULT_CONFIG_FILE = "test.cfg"
+DEFAULT_CONFIG_FILE = "logger.cfg"
 MIN_CYCLE_SLEEP = 0.1
 MIN_LVL_TO_LOGFILE = logging.NOTSET # Log everything to file... @TCC, might want to change this (numeric level)
 MIN_LVL_TO_EMAIL = logging.ERROR    # (numeric level)
