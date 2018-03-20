@@ -27,7 +27,7 @@ logging.getLogger().setLevel(logging.WARNING)
 
 
 ## CONSTANTS ##
-DEFAULT_CONFIG_FILE = "logger.cfg"
+DEFAULT_CONFIG_FILE = "test_logger.cfg"
 MIN_CYCLE_SLEEP = 0.1
 MIN_LVL_TO_LOGFILE = logging.NOTSET # Log everything to file... @TCC, might want to change this (numeric level)
 MIN_LVL_TO_EMAIL = logging.ERROR    # (numeric level)
@@ -201,7 +201,7 @@ def main(argv):
     # parse cfg_file argument and set defaults
     conf_parser = argparse.ArgumentParser(description=__doc__,
                                           add_help=False)  # turn off help so later parse (with all opts) handles it
-    conf_parser.add_argument('-c', '--cfg-file', type=argparse.FileType('r'), default=DEFAULT_CONFIG_FILE,
+    conf_parser.add_argument('-c', '--cfg-file', type=argparse.FileType('r'),# default=DEFAULT_CONFIG_FILE,
                              help="Config file specifiying options/parameters.\nAny long option can be set by remove the leading '--' and replace '-' with '_'")
     args, remaining_argv = conf_parser.parse_known_args(argv)
     # build the config (read config files)
@@ -213,6 +213,7 @@ def main(argv):
         cfg.read_file(chain(("[DEFAULTS]",), args.cfg_file))
         defaults = dict(cfg.items("DEFAULTS"))
         # special handling of paratmeters that need it like lists
+        defaults['overwrite'] = defaults['overwrite'].lower() in ['true', 'yes', 'y', '1']
         # defaults['make_temperature_plots'] = strtobool(defaults['make_temperature_plots'])
         #        if( 'bam_files' in defaults ): # bam_files needs to be a list
         #            defaults['bam_files'] = [ x for x in defaults['bam_files'].split('\n') if x and x.strip() and not x.strip()[0] in ['#',';'] ]
