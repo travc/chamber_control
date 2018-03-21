@@ -107,8 +107,13 @@ class SWDeviationAlarm():
     def get_setpoint(self):
         return self.setpoint
 
-    def disable_until_time(self, reactivate_time):
-        self.reactivate_time = reactivate_time
+    def reenable(self):
+        self.reactivate_time = None
+
+    def disable_until_time(self, reactivate_time, override=False):
+        """if override is false, will not reduce existing disable time"""
+        if override or self.reactivate_time is None or self.reactivate_time < reactivate_time:
+            self.reactivate_time = reactivate_time
 
     def is_triggered(self): # return True if in an alarmed state
         return self.first_trigger_time is not None

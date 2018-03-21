@@ -13,6 +13,7 @@ import configparser
 from itertools import chain
 import argparse
 from datetime import datetime
+import dateutil
 from threading import Event
 from collections import deque
 import signal
@@ -34,6 +35,25 @@ logging.getLogger().setLevel(logging.WARNING)
 
 ## CONSTANTS ##
 DEFAULT_CONFIG_FILE = "test_exp.cfg"
+SUN_ANGLE_LIGHT_THRESHOLD = -6 # degrees; -6 is civil twilight
+MIN_CYCLE_SLEEP = 0.1
+
+
+def set_chamber_vals(chamber, vals, logfilename):
+    """actually send commands to the chamber to set values
+    vals dict-like object with 'air temp', 'RH', and 'sun angle'"""
+    # round to 1 decimal place (not strictly needed, but good idea)
+    T = round(vals['air temp'], 1)
+    RH = round(vals['RH'], 1)
+    sun_angle = vals['sun angle']
+    light_val = 0
+    if sun_angle >= SUN_ANGLE_LIGHT_THRESHOLD:
+        light_val = 1
+    logging.info("Set T={}, RH={}, sun_angle={:0.1f}, light_val={}".format(T, RH, sun_angle, light_val))
+    chamber.setTSetpoint(T)
+    chamber.setHSetpoint(RH)
+    chamber.setTimeSignal(light_val)
+
 
 
 def main(argv):
@@ -125,22 +145,61 @@ def main(argv):
             pass
 
     # Read the input file
-    pd.read_csv(args.input_file)
-    #TCC TODO
+    df = pd.read_csv(args.input_file)
+    df.index = pd.to_datetime(df['datetime'])
+    # convert index from dates to just seconds into the timeseries (don't need to worry about TZ)
+    df.index = (df.index-df.index[0]).total_seconds()
+    df.index.name = "seconds"
+
+    print(df.head()) # @TCC TEMP
 
 
-    # log the start time (or do for each cycle?)
-    #TCC TODO
+    # if continuing, there will be a logfile
+    run_start_time = None
+    try:
+        with open(args.logfile, 'r') as logfh:
+            # first line is the start timestamp
+            line = next(logfh)
+            run_start_time = float(line.strip())
+        logging.warning("Continuing run started at {} ({})".format(run_start_time,
+                        datetime.fromtimestamp(run_start_time).astimezone().strftime("%Y-%m-%d %H:%M:%S.%f %z")))
+    except FileNotFoundError:
+        pass
 
+    # log the start time if this is a new run
+    if run_start_time is None:
+        run_start_time = time.time()
+        with open(args.logfile, 'w') as logfh:
+            print(run_start_time, file=logfh)
 
-#    # Event object to handle main loop cycling
-#    mainloopcylceevent = Event()
-#    while True:
-#
-#        ## sleep til next check
-#        cycle_number += 1
-#        mainloopcylceevent.wait(max(MIN_CYCLE_SLEEP, start_time+cycle_number*args.freq-time.time()))
-#        mainloopcylceevent.clear() # in case it was set by an interrupt
+    ## skip steps which should have already happened
+    # except the last one, which we should set the chamber's initial values to
+    actual_start_time = time.time() # should always be >= than run_start_time
+    oldstepdf = df[df.index <= actual_start_time-run_start_time]
+    df = df[df.index > actual_start_time-run_start_time]
+    if oldstepdf.empty:
+        logging.error("First step starts in the future... Don't do that.")
+        sys.exit(2)
+    print("Previous steps\n", oldstepdf)
+
+    # set initial values
+    set_chamber_vals(espec, oldstepdf.iloc[-1], args.logfile)
+
+    # Event object to handle main loop cycling
+    mainloopcylceevent = Event()
+    for stepnum, (sec, dfrow) in enumerate(df.iterrows()):
+        #if stepnum > 1: break
+        print(sec, dfrow)
+
+        ## sleep til this step is supposed to happen
+        steptime = run_start_time+sec
+        sleepsecs = max(MIN_CYCLE_SLEEP, steptime-time.time())
+        logging.info("Sleeping for {} secs until {}".format(sleepsecs, steptime))
+        mainloopcylceevent.wait(sleepsecs)
+        mainloopcylceevent.clear() # in case it was set by an interrupt
+
+        ## do the step
+        set_chamber_vals(espec, dfrow, args.logfile)
 
 
 ## Main hook for running as script
