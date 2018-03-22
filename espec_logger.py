@@ -124,6 +124,7 @@ class SWDeviationAlarm():
             self.trigger_type = trigger_type
             self.first_trigger_time = curtime
             self.last_trigger_time = curtime
+            print("First Trigger {}".format(curtime))
         else: # retrigger
             self.current_msg_level = 'WARNING'
             if self.trigger_type != trigger_type:
@@ -330,8 +331,15 @@ def main(argv):
     # loop for subsequent data lines
     cycle_number = 0 # for timing the next loop
     while True:
+        email_msg = [] # these will get emailed out as critical alarms
+
         ## update/read stat from the chamber
-        stat = espec.updateStat()
+        try:
+            stat = espec.updateStat()
+        except OSError as err:
+            write_msg(args.logfile, 'CRITICAL', str(err))
+            email_msg.append("CRITICAL\t"+str(err))
+
         # output to log file
         write_msg(args.logfile, 'STAT', '\t'.join(str(v) for v in stat.values()))
 
@@ -366,7 +374,6 @@ def main(argv):
         msgs.extend(swalarm_Hdev.update(stat['HSetpoint'], stat['H']))
 
         # output messages
-        email_msg = []
         for msg_level, msg in msgs:
             if getlvlnum(msg_level) >= MIN_LVL_TO_EMAIL:
                 email_msg.append(getlvlname(msg_level)+'\t'+msg)

@@ -140,6 +140,7 @@ class EspecF4Modbus():
     ## Testing code, invoked when module is run as script
 
     def test(self):
+        self.setTSetpoint(23)
         self.setHSetpoint(60)
         #print(self.stat.keys())
         #print(self.stat.values())
@@ -164,7 +165,21 @@ class EspecF4Modbus():
 
 ### Simple testing code when run as script
 def main():
-    DEFAULT_PORT = "/dev/ttyS0"
+#    ## Probe serial ports
+#    for i in range(1,32):
+#        DEFAULT_PORT = "/dev/ttyS{:d}".format(i)
+#        DEFAULT_ADDR = 1
+#        DEFAULT_TIMEOUT = 1
+#        logging.getLogger().setLevel(logging.INFO)
+#        try:
+#            espec = EspecF4Modbus(DEFAULT_PORT, DEFAULT_ADDR, DEFAULT_TIMEOUT)
+#            espec.test()
+#        except (OSError,serial.serialutil.SerialException) as e:
+#            print(i, e)
+#            pass
+
+    # single port
+    DEFAULT_PORT = "/dev/ttyS4"
     DEFAULT_ADDR = 1
     DEFAULT_TIMEOUT = 1
     logging.getLogger().setLevel(logging.INFO)
