@@ -35,21 +35,17 @@ logging.getLogger().setLevel(logging.WARNING)
 
 ## CONSTANTS ##
 DEFAULT_CONFIG_FILE = "test_exp.cfg"
-SUN_ANGLE_LIGHT_THRESHOLD = -6 # degrees; -6 is civil twilight
 MIN_CYCLE_SLEEP = 0.1
 
 
 def set_chamber_vals(chamber, vals, logfilename):
     """actually send commands to the chamber to set values
-    vals dict-like object with 'air temp', 'RH', and 'sun angle'"""
+    vals dict-like object with 'air temp', 'RH', and 'light'"""
     # round to 1 decimal place (not strictly needed, but good idea)
-    T = round(vals['air temp'], 1)
-    RH = round(vals['RH'], 1)
-    sun_angle = vals['sun angle']
-    light_val = 0
-    if sun_angle >= SUN_ANGLE_LIGHT_THRESHOLD:
-        light_val = 1
-    logging.info("Set T={}, RH={}, sun_angle={:0.1f}, light_val={}".format(T, RH, sun_angle, light_val))
+    T = round(float(vals['air temp']), 1)
+    RH = round(float(vals['RH']), 1)
+    light_val = round(float(vals['light']), 1)
+    logging.info("Set T={}, RH={}, light={}".format(T, RH, light_val))
     chamber.setTSetpoint(T)
     chamber.setHSetpoint(RH)
     chamber.setTimeSignal(light_val)

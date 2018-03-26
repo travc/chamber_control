@@ -140,8 +140,9 @@ class EspecF4Modbus():
     ## Testing code, invoked when module is run as script
 
     def test(self):
-        self.setTSetpoint(23)
-        self.setHSetpoint(60)
+        #self.setTSetpoint(23)
+        #self.setHSetpoint(60)
+        self.setTimeSignal(1)
         #print(self.stat.keys())
         #print(self.stat.values())
         for k,v in self.stat.items():
@@ -179,7 +180,7 @@ def main():
 #            pass
 
     # single port
-    DEFAULT_PORT = "/dev/ttyS4"
+    DEFAULT_PORT = "/dev/ttyS0"
     DEFAULT_ADDR = 1
     DEFAULT_TIMEOUT = 1
     logging.getLogger().setLevel(logging.INFO)
