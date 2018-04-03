@@ -180,7 +180,7 @@ def main():
 #            pass
 
     # single port
-    DEFAULT_PORT = "/dev/ttyS0"
+    DEFAULT_PORT = "/dev/ttyS5"
     DEFAULT_ADDR = 1
     DEFAULT_TIMEOUT = 1
     logging.getLogger().setLevel(logging.INFO)
