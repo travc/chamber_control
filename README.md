@@ -9,14 +9,10 @@ Enviromental chamber monitoring and control
 * 3 = /dev/ttyUSB1
 * 4 = /dev/ttyUSB0 ; leftmost, nearest door
 
-
 ## ideas/todo
 Detect "Chamber Run" switch beign off if possible
 
 add silence alarm with timeout (reenable after time or return to normal range) to logger
-
-build lights
-
 
 ## general todo
 better monit monitoring (disk at least)
