@@ -48,6 +48,9 @@ class EspecF4Modbus():
     REG_H = 104
     REG_H_SETPOINT = 319 # rw
 
+    REG_T_SETPOINT_LOW_LIMIT = 602 # rw
+    REG_H_SETPOINT_LOW_LIMIT = 612 # rw
+
     # Alarms
     REG_ALARM1_STATUS = 102
     REG_ALARM1_SOURCE = 716 # input for alarm; 0=1, 1=2, 2=3
@@ -112,6 +115,13 @@ class EspecF4Modbus():
     def setHSetpoint(self, value):
         return self.inst.write_register(self.REG_H_SETPOINT, value, numberOfDecimals=1)
 
+    def setTOff(self):
+        return self.inst.write_register(self.REG_T_SETPOINT,
+                            self.inst.read_register(self.REG_T_SETPOINT_LOW_LIMIT)-1)
+    def setHOff(self):
+        return self.inst.write_register(self.REG_H_SETPOINT,
+                            self.inst.read_register(self.REG_H_SETPOINT_LOW_LIMIT)-1)
+
     def getHeatingPower(self):
         return self.inst.read_register(self.REG_HEATING_POWER)
     def getCoolingPower(self):
@@ -142,7 +152,7 @@ class EspecF4Modbus():
     def test(self):
         #self.setTSetpoint(23)
         #self.setHSetpoint(60)
-        self.setTimeSignal(1)
+        #self.setTimeSignal(1)
         #print(self.stat.keys())
         #print(self.stat.values())
         for k,v in self.stat.items():
@@ -180,12 +190,26 @@ def main():
 #            pass
 
     # single port
-    DEFAULT_PORT = "/dev/ttyS5"
+    DEFAULT_PORT = "/dev/ttyUSB2"
     DEFAULT_ADDR = 1
     DEFAULT_TIMEOUT = 1
     logging.getLogger().setLevel(logging.INFO)
     espec = EspecF4Modbus(DEFAULT_PORT, DEFAULT_ADDR, DEFAULT_TIMEOUT)
-    espec.test()
+
+    import time
+
+    #espec.setTimeSignal(0)
+    #espec.test()
+    print("{0} 0x{0:x} 0b{0:016b}".format(espec.inst.read_register(612)))
+
+    espec.setTSetpoint(21)
+    espec.setHSetpoint(80)
+    #espec.setTOff()
+    #espec.setHOff()
+    time.sleep(0.1)
+    espec.updateStat()
+    print('\n'.join([str(x) for x in espec.getStat().items()]))
+
     return(0)
 
 ## Main hook for running as script
