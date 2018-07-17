@@ -17,4 +17,8 @@ add silence alarm with timeout (reenable after time or return to normal range) t
 ## general todo
 better monit monitoring (disk at least)
 
+## to FIX
+track sensor misreads possible...
+Should probably read multiple times and take median
 
+below 0 readings can crash track profile
