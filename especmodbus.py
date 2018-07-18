@@ -101,19 +101,23 @@ class EspecF4Modbus():
         return self.inst.read_register(self.REG_ALARM2_STATUS)
 
     def getT(self):
-        return self.inst.read_register(self.REG_T, numberOfDecimals=1)
+        return self.inst.read_register(self.REG_T, numberOfDecimals=1, signed=True)
     def getH(self):
         return self.inst.read_register(self.REG_H, numberOfDecimals=1)
 
     def getTSetpoint(self):
-        return self.inst.read_register(self.REG_T_SETPOINT, numberOfDecimals=1)
+        return self.inst.read_register(self.REG_T_SETPOINT, numberOfDecimals=1, signed=True)
     def setTSetpoint(self, value):
-        return self.inst.write_register(self.REG_T_SETPOINT, value, numberOfDecimals=1)
+        return self.inst.write_register(self.REG_T_SETPOINT, value, numberOfDecimals=1, signed=True)
+    def getTLowLimit(self):
+        return self.inst.read_register(self.REG_T_SETPOINT_LOW_LIMIT, numberOfDecimals=1, signed=True)
 
     def getHSetpoint(self):
         return self.inst.read_register(self.REG_H_SETPOINT, numberOfDecimals=1)
     def setHSetpoint(self, value):
         return self.inst.write_register(self.REG_H_SETPOINT, value, numberOfDecimals=1)
+    def getHLowLimit(self):
+        return self.inst.read_register(self.REG_H_SETPOINT_LOW_LIMIT, numberOfDecimals=1)
 
     def setTOff(self):
         return self.inst.write_register(self.REG_T_SETPOINT,
@@ -190,7 +194,7 @@ def main():
 #            pass
 
     # single port
-    DEFAULT_PORT = "/dev/ttyUSB2"
+    DEFAULT_PORT = "/dev/ttyUSB1"
     DEFAULT_ADDR = 1
     DEFAULT_TIMEOUT = 1
     logging.getLogger().setLevel(logging.INFO)
@@ -200,12 +204,18 @@ def main():
 
     #espec.setTimeSignal(0)
     #espec.test()
-    print("{0} 0x{0:x} 0b{0:016b}".format(espec.inst.read_register(612)))
+    #print("{0} 0x{0:x} 0b{0:016b}".format(espec.inst.read_register(612)))
 
-    espec.setTSetpoint(21)
-    espec.setHSetpoint(80)
+    #espec.setTSetpoint(21)
+    #espec.setHSetpoint(80)
     #espec.setTOff()
     #espec.setHOff()
+
+    #foo = espec.getTLowLimit()
+    #print("foo=",foo)
+
+    espec.setTSetpoint(21.1)
+
     time.sleep(0.1)
     espec.updateStat()
     print('\n'.join([str(x) for x in espec.getStat().items()]))

@@ -9,6 +9,9 @@ Enviromental chamber monitoring and control
 * 3 = /dev/ttyUSB1
 * 4 = /dev/ttyUSB0 ; leftmost, nearest door
 
+## notable changes
+Tue Jul 17 15:19:51 HST 2018 : allow negative temperatures; ensure set values are in range for run_profile.py
+
 ## ideas/todo
 Detect "Chamber Run" switch beign off if possible
 
@@ -20,5 +23,3 @@ better monit monitoring (disk at least)
 ## to FIX
 track sensor misreads possible...
 Should probably read multiple times and take median
-
-below 0 readings can crash track profile

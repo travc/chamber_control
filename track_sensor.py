@@ -152,7 +152,6 @@ def main(argv):
         if RH > RH_RANGE_MAX:
             logging.warn("Requested RH value {} too high. Setting to {}".format(RH, RH_RANGE_MAX))
             RH = RH_RANGE_MAX
-        ############### @TCC TODO Make sure T and RH are in allowable ranges ##################
 
         if len(foo) > 2 and not args.override_light:
             light_val = round(float(foo[2]), 1)

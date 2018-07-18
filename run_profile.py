@@ -42,6 +42,10 @@ logging.getLogger().setLevel(logging.WARNING)
 ## CONSTANTS ##
 DEFAULT_CONFIG_FILE = "test_profile.cfg"
 MIN_CYCLE_SLEEP = 0.1
+RH_RANGE_MIN = 10
+RH_RANGE_MAX = 95
+T_RANGE_MIN = -20
+T_RANGE_MAX = 99
 
 
 def epoch2str(float_secs):
@@ -61,6 +65,19 @@ def set_single_chamber_vals(chamber, vals, test_only_mode_flag):
     RH = round(float(vals['RH']), 1)
     light_val = round(float(vals['light']), 1)
     logging.info("Set '{}' T={}, RH={}, light={}".format(chamber.dev, T, RH, light_val))
+    # ensure values are in allowable range
+    if T < T_RANGE_MIN:
+        logging.warn("Requested T value {} too low. Setting to {}".format(T, T_RANGE_MIN))
+        T = T_RANGE_MIN
+    if T > T_RANGE_MAX:
+        logging.warn("Requested T value {} too high. Setting to {}".format(T, T_RANGE_MAX))
+        T = T_RANGE_MAX
+    if RH < RH_RANGE_MIN:
+        logging.warn("Requested RH value {} too low. Setting to {}".format(RH, RH_RANGE_MIN))
+        RH = RH_RANGE_MIN
+    if RH > RH_RANGE_MAX:
+        logging.warn("Requested RH value {} too high. Setting to {}".format(RH, RH_RANGE_MAX))
+        RH = RH_RANGE_MAX
     if test_only_mode_flag:
         logging.info("Test only mode")
     else:
