@@ -194,7 +194,7 @@ def main():
 #            pass
 
     # single port
-    DEFAULT_PORT = "/dev/ttyUSB1"
+    DEFAULT_PORT = "/dev/ttyUSB2"
     DEFAULT_ADDR = 1
     DEFAULT_TIMEOUT = 1
     logging.getLogger().setLevel(logging.INFO)
@@ -207,14 +207,14 @@ def main():
     #print("{0} 0x{0:x} 0b{0:016b}".format(espec.inst.read_register(612)))
 
     #espec.setTSetpoint(21)
-    #espec.setHSetpoint(80)
+    #espec.setHSetpoint(50)
     #espec.setTOff()
     #espec.setHOff()
 
     #foo = espec.getTLowLimit()
     #print("foo=",foo)
 
-    espec.setTSetpoint(21.1)
+    #espec.setTSetpoint(21.1)
 
     time.sleep(0.1)
     espec.updateStat()
