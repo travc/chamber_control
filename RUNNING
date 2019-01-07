@@ -1,10 +1,4 @@
 
-#### HMB ####
-./espec_logger.py -c loggerUSB3.cfg # Half Moon Bay
-#./run_profile.py --restart -c exp_HalfMoonBay_USB3.cfg
-#Wed Jul 18 09:24:29 HST 2018 restart; updated script handles <0 temps
-./run_profile.py -c exp_HalfMoonBay_USB3.cfg
-
 #### Indoor outdoor Rep1 ####
 Thu Aug 30 13:17:46 HST 2018
 
@@ -18,11 +12,18 @@ Thu Aug 30 13:17:46 HST 2018
 ./maildone.sh './track_sensor.py -d /dev/ttyUSB0 -C "ssh root@10.200.59.13 /root/read_outdoor_TH.py"' |& tee -a rep1/track_outdoor.log
 
 # all running by Thu Aug 30 13:26:08 HST 2018
-
+# SHUTDOWN Mon Jan  7 13:20:30 HST 2019
 
 
 
 ###### BELOW IS FINISHED #####
+#### HMB ####
+./espec_logger.py -c loggerUSB3.cfg # Half Moon Bay
+#./run_profile.py --restart -c exp_HalfMoonBay_USB3.cfg
+#Wed Jul 18 09:24:29 HST 2018 restart; updated script handles <0 temps
+./run_profile.py -c exp_HalfMoonBay_USB3.cfg
+# shutdown... Mon Dec  3 12:43:00 HST 2018
+
 
 # tracking outside (rearing poarch) Wed Jun 20 12:37:24 HST 2018
 # moved old log files and restart Fri Jun 29 08:29:51 HST 2018
