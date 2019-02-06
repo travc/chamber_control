@@ -1,34 +1,34 @@
+###### BELOW IS FINISHED #####
 
 #### Indoor outdoor Rep1 ####
-Thu Aug 30 13:17:46 HST 2018
+#Thu Aug 30 13:17:46 HST 2018
 
 # indoor (rearing Medfly room) on chamber S0
-./espec_logger.py -c logger0.cfg # logging to rep1/chamber0.log
-./maildone.sh './track_sensor.py -d /dev/ttyS0 -C "ssh root@10.200.59.13 /root/read_indoor_TH.py"' |& tee -a rep1/track_indoor.log
+#./espec_logger.py -c logger0.cfg # logging to rep1/chamber0.log
+#./maildone.sh './track_sensor.py -d /dev/ttyS0 -C "ssh root@10.200.59.13 /root/read_indoor_TH.py"' |& tee -a rep1/track_indoor.log
 
 # outdoor (rearing poarch) on chamber USB0
 # aborted start, first T&RH read was odd; restarted
-./espec_logger.py -c loggerUSB0.cfg # logging to rep1/chamberUSB0.log
-./maildone.sh './track_sensor.py -d /dev/ttyUSB0 -C "ssh root@10.200.59.13 /root/read_outdoor_TH.py"' |& tee -a rep1/track_outdoor.log
+#./espec_logger.py -c loggerUSB0.cfg # logging to rep1/chamberUSB0.log
+#./maildone.sh './track_sensor.py -d /dev/ttyUSB0 -C "ssh root@10.200.59.13 /root/read_outdoor_TH.py"' |& tee -a rep1/track_outdoor.log
 
 # all running by Thu Aug 30 13:26:08 HST 2018
 # SHUTDOWN Mon Jan  7 13:20:30 HST 2019
 
 
 
-###### BELOW IS FINISHED #####
 #### HMB ####
-./espec_logger.py -c loggerUSB3.cfg # Half Moon Bay
+#./espec_logger.py -c loggerUSB3.cfg # Half Moon Bay
 #./run_profile.py --restart -c exp_HalfMoonBay_USB3.cfg
 #Wed Jul 18 09:24:29 HST 2018 restart; updated script handles <0 temps
-./run_profile.py -c exp_HalfMoonBay_USB3.cfg
+#./run_profile.py -c exp_HalfMoonBay_USB3.cfg
 # shutdown... Mon Dec  3 12:43:00 HST 2018
 
 
 # tracking outside (rearing poarch) Wed Jun 20 12:37:24 HST 2018
 # moved old log files and restart Fri Jun 29 08:29:51 HST 2018
 #./track_external.py |& tee track_external_USB0.log
-./espec_logger.py -c loggerUSB0.cfg
+#./espec_logger.py -c loggerUSB0.cfg
 # Restart Sat Jun 30 13:13:35 HST 2018: Chamber stopped responding:
 # held at T=22.4, RH=95.0, light=0 from 2018-06-29 20:58:52.492 to 2018-06-30 13:12:53.550
 # Restart at 2018-07-02 09:33:09: Chamber stooped responding
@@ -38,16 +38,16 @@ Thu Aug 30 13:17:46 HST 2018
 # 2018-07-08 11:18:21.426 Noticed extremely low RH... suspected misread so restart script to trigger reread
 #./track_sensor.py -d /dev/ttyUSB0 -C "ssh root@10.200.59.13 /root/read_outdoor_TH.py" |& tee track_sensor_external_USB0_2.log
 # Sat Aug  4 11:14:45 HST 2018 : Crash... read error from sensor I think
-./maildone.sh './track_sensor.py -d /dev/ttyUSB0 -C "ssh root@10.200.59.13 /root/read_outdoor_TH.py"' |& tee -a track_sensor_external_USB0_2.log
+#./maildone.sh './track_sensor.py -d /dev/ttyUSB0 -C "ssh root@10.200.59.13 /root/read_outdoor_TH.py"' |& tee -a track_sensor_external_USB0_2.log
 # END Thu Aug 16 14:31:48 HST 2018
 
 
 # track insectary (container)
-./espec_logger.py -c loggerS0.cfg
+#./espec_logger.py -c loggerS0.cfg
 #./track_rearing.py |& tee track_rearing_S0.log
 # Restart with updated script Mon Jul  2 15:00:41 HST 2018
 #./track_sensor.py -d /dev/ttyS0 -C "ssh root@10.200.59.13 /root/read_indoor_TH.py" |& tee track_insectary.log
-./maildone.sh './track_sensor.py -d /dev/ttyS0 -C "ssh root@10.200.59.13 /root/read_indoor_TH.py"' |& tee -a track_insectary.log
+#./maildone.sh './track_sensor.py -d /dev/ttyS0 -C "ssh root@10.200.59.13 /root/read_indoor_TH.py"' |& tee -a track_insectary.log
 # END Thu Aug 16 14:31:48 HST 2018
 
 ## Stopped
@@ -61,6 +61,6 @@ Thu Aug 30 13:17:46 HST 2018
 # ./run_exp.py -c exp_SunValley_ch0.cfg
 # Fri Jun 29 08:22:35 HST 2018
 # ./espec_logger.py -c logger0.cfg # Sun Valley
-./run_profile.py --restart -c exp_SunValley_S0.cfg
+#./run_profile.py --restart -c exp_SunValley_S0.cfg
 
 
