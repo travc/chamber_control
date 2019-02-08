@@ -9,6 +9,7 @@ import configparser
 from itertools import chain
 import argparse
 from datetime import datetime
+from dateutil.tz import tzlocal
 from threading import Event
 from collections import deque
 import signal
@@ -67,6 +68,10 @@ def sendMail(to, fro, subject, text, files=[], server="localhost"):
 
 
 #######
+
+def epoch2str(float_secs):
+    return datetime.fromtimestamp(float_secs).replace(tzinfo=tzlocal()).strftime("%Y-%m-%d %H:%M:%S.%f %z")
+
 
 class SWDeviationAlarm():
     def __init__(self, name, low_trigger_thresh, low_clear_thresh=None,
@@ -288,7 +293,7 @@ def main(argv):
     # Startup output
     start_time = time.time()
     write_msg(args.logfile, 'INFO', "Logger started {}; dev={}; pid={}".format(
-                        datetime.fromtimestamp(start_time).astimezone().strftime("%Y-%m-%d %H:%M:%S.%f %z"),
+                        epoch2str(start_time),
                         args.dev,
                         os.getpid()))
     write_msg(args.logfile, 'INFO', args)

@@ -19,6 +19,7 @@ import numpy as np
 from datetime import datetime
 from datetime import timezone
 import dateutil
+from dateutil.tz import tzlocal
 from threading import Event
 from collections import deque
 import signal
@@ -49,7 +50,7 @@ T_RANGE_MAX = 99
 
 
 def epoch2str(float_secs):
-    return datetime.fromtimestamp(float_secs).astimezone().strftime("%Y-%m-%d %H:%M:%S.%f %z")
+    return datetime.fromtimestamp(float_secs).replace(tzinfo=tzlocal()).strftime("%Y-%m-%d %H:%M:%S.%f %z")
 
 
 def set_chamber_vals(chamber_list, vals, test_only_mode_flag):
@@ -174,7 +175,8 @@ def main(argv):
     # Startup output
     start_time = time.time()
     logging.info("Experiment started {}; dev={}; pid={}".format(
-                        datetime.fromtimestamp(start_time).astimezone().strftime("%Y-%m-%d %H:%M:%S.%f %z"),
+                        epoch2str(start_time),
+                        #datetime.fromtimestamp(start_time).astimezone().strftime("%Y-%m-%d %H:%M:%S.%f %z"),
                         args.dev,
                         os.getpid()))
     logging.info(args)

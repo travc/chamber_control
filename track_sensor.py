@@ -71,7 +71,7 @@ T_RANGE_MIN = -20
 T_RANGE_MAX = 99
 
 def epoch2str(float_secs):
-    return datetime.fromtimestamp(float_secs).replace(tzinfo=tzlocal()).strftime("%Y-%m-%d %H:%M:%S.%f %z"),
+    return datetime.fromtimestamp(float_secs).replace(tzinfo=tzlocal()).strftime("%Y-%m-%d %H:%M:%S.%f %z")
 
 
 def main(argv):
