@@ -29,6 +29,9 @@ All the programs are under `/home/ncm/chamber_control` so:
 ```
 ./maildone.sh ./espec_logger.py -c loggerUSB0.cfg 
 ```
+This will create a `chamber_USB0.log` file.  
+There is already .cfg file for each chamber.  
+This program keeps running and ouputting to the terminal, so run one per window (just create a new window with F2).
 
 ### Have a chamber follow the T & RH readings from an external sensor (a Pi with an SHT31 attached to it)
 ```
@@ -38,7 +41,13 @@ Replace the `/root/read_sht31.py out` with `/root/read_sht31.py in` to read the 
 Replace the last `track_outdoor_repFOO.log` with whatever logging filename you want to use.
 
 ### Run a profile (follow a list, possibly repeating, of T,RH,light settings)
-Make the profile configuration file.  Start with 
+Make the profile configuration file.  See `profile_tmp.cfg` for an example.
+
+Running a profile is started with something like:  
+`./run_profile.py -c profile_tmp.cfg`  
+Of note, `run_profile.py` will pick up where it left off by default.  If you want to start over, say:  
+`./run_profile.py --restart -c profile_tmp.cfg`  
+that doesn't matter if you are using 'clocktime' (real time), but does if you are doing something like following a .csv file with historic weather data.
 
 
 ## Install
