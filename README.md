@@ -38,7 +38,7 @@ This program keeps running and ouputting to the terminal, so run one per window 
 ./maildone.sh './track_sensor.py -d /dev/ttyUSB0 -C "ssh root@10.200.59.13 /root/read_sht31.py out"' |& tee -a track_outdoor_repFOO.log
 ```
 Replace the `/root/read_sht31.py out` with `/root/read_sht31.py in` to read the sensor in the medfly rearing room.  
-Replace the last `track_outdoor_repFOO.log` with whatever logging filename you want to use.
+Replace the last `track_outdoor_repFOO.log` with whatever logging filename you want to use.  
 *note: The `read_sht31.py` script which runs on a Raspberry Pi is in the `pihvac` repository.*
 
 ### Run a profile (follow a list, possibly repeating, of T,RH,light settings)
