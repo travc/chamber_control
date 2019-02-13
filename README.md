@@ -19,7 +19,7 @@ Run `byobu` to create a persistant session or reconnect to an existing one.  Hit
 - F2 : create a new window
 - F3 : switch to previous window
 - F4 : switch to next window
-- F6 : disconnect from session  
+- F6 : disconnect from session (so you can logout without closing windows)  
 To close a window, just type `exit`.
 
 All the programs are under `/home/ncm/chamber_control` so:  
