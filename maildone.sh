@@ -2,7 +2,7 @@
 ## Email when a job is finished
 cmd="$@"
 
-MAILTO='travcollier@gmail.com'
+MAILTO='chamber'
 
 START_DATE=`date -Ins`
 echo "######## STARTED ########"
