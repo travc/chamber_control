@@ -44,8 +44,8 @@ Replace the last `track_outdoor_repFOO.log` with whatever logging filename you w
 ### Run a profile (follow a list, possibly repeating, of T,RH,light settings)
 Make the profile configuration file.  See `profile_tmp.cfg` for an example.
 
-Running a profile is started with something like:  
-`./run_profile.py -c profile_tmp.cfg`  
+Running a profile is started with something like:
+```./run_profile.py -c profile_tmp.cfg```
 Of note, `run_profile.py` will pick up where it left off by default.  If you want to start over, say:  
 `./run_profile.py --restart -c profile_tmp.cfg`  
 that doesn't matter if you are using 'clocktime' (real time), but does if you are doing something like following a .csv file with historic weather data.
