@@ -10,6 +10,48 @@ Enviromental chamber monitoring and control
 * 4 = /dev/ttyUSB0 ; leftmost, nearest door
 
 
+## Tutorial for Indoor/Outdoor
+- login to PC attached to chambers (see above)
+- run byobu  
+```
+byobu
+```
+- setup directory for the logs
+```
+cd chamber_control
+mkdir indoor_outdoor_rep2
+```
+- rename the byobu window (optional but nice)
+```
+byobu rename-window USB0-logging
+```
+- start the logger for USB0
+```
+./maildone.sh ./espec_logger.py -c loggerUSB0.cfg 
+```
+- open a new window for the tracking program to run in  
+**press F2 key**
+- run the tracking program
+```
+byobu rename-window USB0-outdoor
+./maildone.sh './track_sensor.py -d /dev/ttyUSB0 -C "ssh root@10.200.59.13 /root/read_sht31.py out"' |& tee -a indoor_outdoor_rep2/USB0_outdoor.log
+```
+
+- repeat for logging and tracking outdoor (using the chamber on ttyS0?)  
+**press F2 key**
+```
+byobu rename-window S0-logging
+./maildone.sh ./espec_logger.py -c loggerS0.cfg 
+```
+**press F2 key**
+```
+byobu rename-window S0-outdoor
+./maildone.sh './track_sensor.py -d /dev/ttyS0 -C "ssh root@10.200.59.13 /root/read_sht31.py in"' |& tee -a indoor_outdoor_rep2/USB0_indoor.log
+```
+Now you can use the F3 and F4 keys to switch between windows and see what is going on.  
+When you are satisfied, logout by detaching (**press F6**) and type `exit`.  
+
+
 ## Running
 
 ### Logging in...
@@ -24,6 +66,7 @@ To close a window, just type `exit`.
 
 All the programs are under `/home/ncm/chamber_control` so:  
 `cd chamber_control`
+
 
 ### Monitor/log a chamber
 ```
@@ -40,48 +83,6 @@ This program keeps running and ouputting to the terminal, so run one per window 
 Replace the `/root/read_sht31.py out` with `/root/read_sht31.py in` to read the sensor in the medfly rearing room.  
 Replace the last `track_outdoor_repFOO.log` with whatever logging filename you want to use.  
 *note: The `read_sht31.py` script which runs on a Raspberry Pi is in the `pihvac` repository.*
-
-  #### Tutorial for Indoor/Outdoor
-  - login to PC attached to chambers (see above)
-  - run byobu  
-  ```
-  byobu
-  ```
-  - setup directory for the logs
-  ```
-  cd chamber_control
-  mkdir indoor_outdoor_rep2
-  ```
-  - rename the byobu window (optional but nice)
-  ```
-  byobu rename-window USB0-logging
-  ```
-  - start the logger for USB0
-  ```
-  ./maildone.sh ./espec_logger.py -c loggerUSB0.cfg 
-  ```
-  - open a new window for the tracking program to run in  
-  **press F2 key**
-  - run the tracking program
-  ```
-  byobu rename-window USB0-outdoor
-  ./maildone.sh './track_sensor.py -d /dev/ttyUSB0 -C "ssh root@10.200.59.13 /root/read_sht31.py out"' |& tee -a indoor_outdoor_rep2/USB0_outdoor.log
-  ```
-
-  - repeat for logging and tracking outdoor (using the chamber on ttyS0?)  
-  **press F2 key**
-  ```
-  byobu rename-window S0-logging
-  ./maildone.sh ./espec_logger.py -c loggerS0.cfg 
-  ```
-  **press F2 key**
-  ```
-  byobu rename-window S0-outdoor
-  ./maildone.sh './track_sensor.py -d /dev/ttyS0 -C "ssh root@10.200.59.13 /root/read_sht31.py in"' |& tee -a indoor_outdoor_rep2/USB0_indoor.log
-  ```
-  Now you can use the F3 and F4 keys to switch between windows and see what is going on.  
-  When you are satisfied, logout by detaching **press F6** and type `exit`.  
-
 
 ### Run a profile (follow a list, possibly repeating, of T,RH,light settings)
 Make the profile configuration file.  See `profile_tmp.cfg` for an example.
