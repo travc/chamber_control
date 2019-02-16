@@ -19,7 +19,7 @@ byobu
 - setup directory for the logs
 ```
 cd chamber_control
-mkdir indoor_outdoor_rep2
+mkdir indoor_outdoor_rep3
 ```
 - rename the byobu window (optional but nice)
 ```
@@ -34,7 +34,7 @@ byobu rename-window USB0-logging
 - run the tracking program
 ```
 byobu rename-window USB0-outdoor
-./maildone.sh './track_sensor.py -d /dev/ttyUSB0 -C "ssh root@10.200.59.13 /root/read_sht31.py out"' |& tee -a indoor_outdoor_rep2/USB0_outdoor.log
+./maildone.sh './track_sensor.py -d /dev/ttyUSB0 -C "ssh root@10.200.59.13 /root/read_sht31.py out"' |& tee -a indoor_outdoor_rep3/USB0_outdoor.log
 ```
 
 - repeat for logging and tracking outdoor (using the chamber on ttyS0?)  
@@ -45,8 +45,8 @@ byobu rename-window S0-logging
 ```
 **press F2 key**
 ```
-byobu rename-window S0-outdoor
-./maildone.sh './track_sensor.py -d /dev/ttyS0 -C "ssh root@10.200.59.13 /root/read_sht31.py in"' |& tee -a indoor_outdoor_rep2/USB0_indoor.log
+byobu rename-window S0-indoor
+./maildone.sh './track_sensor.py -d /dev/ttyS0 -C "ssh root@10.200.59.13 /root/read_sht31.py in"' |& tee -a indoor_outdoor_rep3/USB0_indoor.log
 ```
 Now you can use the F3 and F4 keys to switch between windows and see what is going on.  
 When you are satisfied, logout by detaching (**press F6**) and type `exit`.  
